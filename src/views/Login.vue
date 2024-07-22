@@ -3,16 +3,16 @@
     <div class="col-md-6 offset-md-3 offset-lg-3">
       <div>
         <div>
-          <h3>Login</h3>
+          <h3>Login {{ firstName }}</h3>
           <hr />
         </div>
         <form>
-          <div class="form-group">
-            <label>Email</label>
+          <div class="form-group mb-3">
+            <label class="form-label">Email</label>
             <input type="text" class="form-control" />
           </div>
-          <div class="form-group">
-            <label>Password</label>
+          <div class="form-group mb-3">
+            <label class="form-label">Password</label>
             <input type="text" class="form-control" />
           </div>
           <div class="my-3">
@@ -25,8 +25,14 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex';
 
+export default {
+  computed: {
+    ...mapState('auth', {
+      firstName: state => state.name
+    })
+  }
 }
 </script>
 
