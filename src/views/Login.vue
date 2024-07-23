@@ -6,14 +6,20 @@
           <h3>Login {{ firstName }}</h3>
           <hr />
         </div>
-        <form>
+        <form @submit.prevent="onLogin">
           <div class="form-group mb-3">
             <label class="form-label">Email</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" v-model="email"/>
+            <div class="text-danger" v-if="errors.email">
+              {{ errors.email }}
+            </div>
           </div>
           <div class="form-group mb-3">
             <label class="form-label">Password</label>
-            <input type="text" class="form-control" />
+            <input type="text" class="form-control" v-model="password"/>
+            <div class="text-danger" v-if="errors.password">
+              {{ errors.password }}
+            </div>
           </div>
           <div class="my-3">
             <button type="submit" class="btn btn-primary">Login</button>
@@ -25,13 +31,30 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import SignupValidations from "../services/SignupValidations"
 
 export default {
-  computed: {
-    ...mapState('auth', {
-      firstName: state => state.name
-    })
+  data() {
+    return {
+      email: '',
+      password: '',
+      errors: []
+    }
+  },
+
+  methods: {
+    onLogin() {
+      let validations = new SignupValidations(
+        this.email,
+        this.password
+      )
+
+      this.errors = validations.checkValidations()
+
+      if (this.errors.length) {
+        return false
+      }
+    }
   }
 }
 </script>
