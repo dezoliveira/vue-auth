@@ -6,6 +6,9 @@
           <h3>Signup</h3>
           <hr />
         </div>
+        <div class="alert alert-danger" v-if="error">
+          {{ error }}
+        </div>
         <form @submit.prevent="onSignup">
           <div class="form-group">
             <label>Email</label>
@@ -39,7 +42,8 @@ export default {
     return {
       email: '',
       password: '',
-      errors: []
+      errors: [],
+      error: ''
     }
   },
 
@@ -63,6 +67,8 @@ export default {
       this.signup({
         email: this.email,
         password: this.password
+      }).catch((error) => {
+        this.error = error
       })
     }
   }
