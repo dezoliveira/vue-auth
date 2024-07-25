@@ -10,14 +10,14 @@
           {{ error }}
         </div>
         <form @submit.prevent="onSignup">
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label>Email</label>
             <input type="text" class="form-control" v-model.trim="email"/>
             <div class="text-danger" v-if="errors.email">
               {{ errors.email }}
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label>Password</label>
             <input type="text" class="form-control" v-model.trim="password"/>
             <div class="text-danger" v-if="errors.password">
@@ -35,8 +35,8 @@
 
 <script>
 import SignupValidations from '@/services/SignupValidations'
-import { mapActions } from 'vuex'
-import { SIGNUP_ACTION } from '@/store/storeconstraints'
+import { mapActions, mapMutations } from 'vuex'
+import { LOADING_SPINNER_SHOW_MUTATION, SIGNUP_ACTION } from '@/store/storeconstraints'
 export default {
   data() {
     return {
@@ -52,7 +52,11 @@ export default {
       signup: SIGNUP_ACTION
     }),
 
-    onSignup() {
+    ...mapMutations({
+      showLoading: LOADING_SPINNER_SHOW_MUTATION
+    }),
+
+    async onSignup() {
       let validations = new SignupValidations(
         this.email,
         this.password
@@ -64,12 +68,19 @@ export default {
         return false
       }
 
-      this.signup({
+      // Activate Spinner
+      this.showLoading(true)
+
+      // Signup registration
+      await this.signup({
         email: this.email,
         password: this.password
       }).catch((error) => {
         this.error = error
+        this.showLoading(false)
       })
+
+      this.showLoading(false)
     }
   }
 }
