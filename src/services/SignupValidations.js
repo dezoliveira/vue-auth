@@ -24,9 +24,22 @@ export default class SignupValidations {
   }
   
   static getErrorMessageFromCode(errorCode) {
+    console.log(errorCode)
     switch(errorCode) {
       case 'EMAIL_EXISTS':
-        return 'Email already exists'
+        return 'Email already exists';
+
+      case 'EMAIL_NOT_FOUND':
+        return 'Email Not Found';
+
+      case 'INVALID_PASSWORD':
+        return 'Invalid Password';
+
+      case 'INVALID_LOGIN_CREDENTIALS':
+        return 'Ivalid Credentials';
+
+      default: 
+        return 'Unexpected error occurred. Please try again';
     }
   }
 }

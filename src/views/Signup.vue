@@ -11,14 +11,14 @@
         </div>
         <form @submit.prevent="onSignup">
           <div class="form-group mb-3">
-            <label>Email</label>
+            <label class="form-label">Email</label>
             <input type="text" class="form-control" v-model.trim="email"/>
             <div class="text-danger" v-if="errors.email">
               {{ errors.email }}
             </div>
           </div>
           <div class="form-group mb-3">
-            <label>Password</label>
+            <label class="form-label">Password</label>
             <input type="text" class="form-control" v-model.trim="password"/>
             <div class="text-danger" v-if="errors.password">
               {{ errors.password }}
